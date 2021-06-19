@@ -1,0 +1,2 @@
+class Sesh < ApplicationRecord
+end

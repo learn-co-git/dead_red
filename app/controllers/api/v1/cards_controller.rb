@@ -1,21 +1,23 @@
 class Api::V1::CardsController < ApplicationController
   before_action :set_card, only: [:show, :update, :destroy]
 
-# GET /cards
+
 def index
   @cards = Card.all
 
   render json: @cards
 end
 
-# GET /cards/1
+
 def show
   render json: @card
 end
 
-# POST /cards
+
 def create
   @card = Card.new(card_params)
+
+  Cloudinary::Uploader(card_params[:url], :upload_preset => 'b33rch33s3', :folder => session[:id])
 
   if @card.save
     render json: @card, status: :created, location: @card
@@ -24,7 +26,7 @@ def create
   end
 end
 
-# PATCH/PUT /cards/1
+
 def update
   if @card.update(card_params)
     render json: @card
@@ -33,18 +35,17 @@ def update
   end
 end
 
-# DELETE /cards/1
 def destroy
   @card.destroy
 end
 
+
 private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_card
     @card = Card.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def card_params
     params.require(:card).permit(:player_name, :year, :brand, :description, :price, :bid, :bidderId, :url, :user_id)
   end
