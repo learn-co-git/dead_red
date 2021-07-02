@@ -10,7 +10,7 @@ end
 
 
 def show
-  render json: @card
+  render json: Cards.all
 end
 
 
@@ -37,6 +37,12 @@ end
 
 def destroy
   @card.destroy
+end
+
+def collection
+  user = Sesh.all.last.user_id
+  @user = User.find_by_id(user)
+  render json: @user.cards
 end
 
 
