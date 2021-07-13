@@ -4,15 +4,12 @@ class Api::V1::CardsController < ApplicationController
 
 def index
   @cards = Card.all
-
   render json: @cards
 end
-
 
 def show
   render json: Cards.all
 end
-
 
 def create
   @card = Card.new(card_params)
@@ -26,9 +23,9 @@ def create
   end
 end
 
-
 def update
-  if @card.update(card_params)
+  binding.pry
+  if @card.update(bidderId: buy_params[:id], sold_status: true)
     render json: @card
   else
     render json: @card.errors, status: :unprocessable_entity
@@ -45,11 +42,14 @@ def collection
   render json: @user.cards
 end
 
-
 private
 
   def set_card
     @card = Card.find(params[:id])
+  end
+
+  def buy_params
+    params.require(:card).permit(:id, :user)
   end
 
   def card_params
