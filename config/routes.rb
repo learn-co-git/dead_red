@@ -6,7 +6,8 @@ Rails.application.routes.draw do
     end
   end
 
-  put 'buy', action: :update, controller: 'api/v1/cards' 
+  post 'newcard', action: :create, controller: 'api/v1/cards'
+  put 'buy', action: :update, controller: 'api/v1/cards'
   get 'market', action: :index, controller: 'api/v1/cards'
   post 'new', action: :make_new, controller: 'api/v1/users'
   post 'login', action: :create, controller: 'api/v1/sessions'

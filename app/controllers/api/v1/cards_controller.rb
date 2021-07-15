@@ -12,9 +12,8 @@ def show
 end
 
 def create
-  @card = Card.new(card_params)
-
-  Cloudinary::Uploader(card_params[:url], :upload_preset => 'b33rch33s3', :folder => session[:id])
+  @card = Card.new(player_name: card_params[:player_name], year: card_params[:year], brand: card_params[:brand], description: card_params[:description], price: card_params[:price], url: card_params[:url], user_id: params[:user], sold_status: false)
+  @card.save
 
   if @card.save
     render json: @card, status: :created, location: @card
@@ -24,8 +23,7 @@ def create
 end
 
 def update
-  binding.pry
-  if @card.update(bidderId: buy_params[:id], sold_status: true)
+  if @card.update(bidderId: buy_params[:user], sold_status: true)
     render json: @card
   else
     render json: @card.errors, status: :unprocessable_entity
@@ -49,10 +47,10 @@ private
   end
 
   def buy_params
-    params.require(:card).permit(:id, :user)
+    params.permit(:id, :user, :card)
   end
 
   def card_params
-    params.require(:card).permit(:player_name, :year, :brand, :description, :price, :bid, :bidderId, :url, :user_id)
+    params.require(:card).permit(:player_name, :year, :brand, :description, :price, :bid, :bidderId, :url, :user, :sold_status)
   end
 end
