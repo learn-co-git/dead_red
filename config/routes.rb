@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   put 'buy', action: :update, controller: 'api/v1/cards'
   get 'market', action: :index, controller: 'api/v1/cards'
   post 'new', action: :make_new, controller: 'api/v1/users'
-  post 'login', action: :create, controller: 'api/v1/sessions'
+  post 'login', action: :sesh_create, controller: 'api/v1/sessions'
   get 'current', action: :get_current_user, controller: 'api/v1/sessions'
   post 'logout', action: :destroy, controller: 'api/v1/sessions'
   get 'collection', action: :collection, controller: 'api/v1/cards'

@@ -12,11 +12,12 @@ def show
 end
 
 def create
-  @card = Card.new(player_name: card_params[:player_name], year: card_params[:year], brand: card_params[:brand], description: card_params[:description], price: card_params[:price], url: card_params[:url], user_id: params[:user], sold_status: false)
+  @user = User.find_by_id(params[:user])
+  @card = Card.new(player_name: card_params[:player_name], year: card_params[:year], brand: card_params[:brand], description: card_params[:description], price: card_params[:price], url: card_params[:url], user_id: @user.id, sold_status: false)
   @card.save
 
   if @card.save
-    render json: @card, status: :created, location: @card
+    render json: @card
   else
     render json: @card.errors, status: :unprocessable_entity
   end
